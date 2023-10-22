@@ -1,0 +1,11 @@
+.env
+.venv
+.vscode
+__pycache__/
+.ipynb_checkpoints/
+data/
+old_files/
+fake_root/
+*.pt
+*.pickle
+*.zip
