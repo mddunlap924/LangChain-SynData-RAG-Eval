@@ -56,12 +56,12 @@ The primary function of an IR system is retrieval, which aims to determine the r
     Figure 1: RAG process overview <a href="https://blog.gopenai.com/enrich-llms-with-retrieval-augmented-generation-rag-17b82a96b6f0">[Source]</a>.
 </p>
 
-In particular this repository is focused on building a synthetic query-context dataset so the IR process shown in Figure 1 Step #2 can be evaluated offline and revised accordingly to assess the IR systems' tradeoffs of speed vs. accuracy. Figure 2 provides a more detailed overview of an LLM based IR system, which is a deeper-dive into Step #2 from Figure 1. 
+This repository concentrates on creating a synthetic query-context dataset. This dataset is crucial for evaluating the Information Retrieval (IR) process illustrated in Figure 1, Step #2. By allowing offline evaluation, it enables a thorough analysis of an IR systems' balance between speed and accuracy, informing necessary revisions. Referencing Figure 2, a detailed exploration of LLM-based IR systems is shown. 
 <p align="center"> 
     <img src="./imgs/overview-llms-ir.png" alt="this is some info."
     width="600" height="225">
     <br>
-    Image taken from <a href="https://arxiv.org/pdf/2308.07107.pdf">Large Language Models for Information Retrieval: A Survey</a>
+    Figure 2: LLMs can be used in query rewriter, retriever, reranker, and reader <a href="https://arxiv.org/pdf/2308.07107.pdf">[Source]</a>
 </p>
 
 As shown their are several steps in the IR task and solutions can range in complexity from traditional methods (e.g., term-based sparse methods) to neural based methods (e.g., embeddings and LLMs).
