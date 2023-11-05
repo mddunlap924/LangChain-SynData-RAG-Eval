@@ -43,7 +43,7 @@ When developing an IR or Retrieval Augmented Generation (RAG) system a dataset o
 
 <p align="center"> 
     <img src="./imgs/Query-Generator.png"
-    style="width:650px;height:300px;">
+    style="width:600px;height:225px;">
     <br>
     Figure 1: Process of Synthetic Query Generation to create a Dataset for evaluating IR ranking
 </p>
@@ -52,7 +52,7 @@ When developing an IR or Retrieval Augmented Generation (RAG) system a dataset o
 The primary function of an IR system is retrieval, which aims to determine the relevance between a users' query and the content to be retrieved. Implementing an IR or RAG system demands user-specific documents. However, lacking corresponding queries hampers system evaluation. Figure 2 provides an overview of the RAG process for a question-answering system.  
 
 <p align="center"> 
-    <img src="./imgs/open-book.png" width="512" height="512"
+    <img src="./imgs/open-book.png"
     style="width:512px;height:512px;">
     <br>
     Figure 2: RAG process overview <a href="https://blog.gopenai.com/enrich-llms-with-retrieval-augmented-generation-rag-17b82a96b6f0">[Source]</a>.
