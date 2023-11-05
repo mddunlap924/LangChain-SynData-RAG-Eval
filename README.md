@@ -39,7 +39,9 @@ QUERY:
 What was the outstanding service offered by Pure TalkUSA?
 ```
 
-When developing an IR or Retrieval Augmented Generation (RAG) system a dataset of context and queries is useful for evaluating the system's ranking effectiveness for a set of custom documents. Using LLM prompt engineering a variety of synthetic queries can be used to create a dataset. Figure 1 illustrates the process of going from a set of custom documents to building a `Dataset` that can be used to evaluate ranking for IR or RAG systems. The `Synthetic Query Generator` process is presented and described in this repository. Particularly, this repository demonstrates [zero-shot and few-shot prompting](https://openreview.net/pdf?id=gmL46YMpu2J#:~:text=Importantly%2C%20the%20few%2Dshot%20examples,highly%20efficient%20dual%20encoder%20models.) for highly customizable synthetic queries datasets. 
+When building an IR or Retrieval Augmented Generation (RAG) system, a dataset of context and queries is vital for evaluating the system's ranking effectiveness with custom documents. The retriever, a crucial component, offers various options like embedding models, sparse vs. dense vs. hybrid retrieval methods, and re-rankers. Understanding how to select these components is essential. Creating an evaluation dataset for the retriever is the initial step in this process [[Source]](https://blog.llamaindex.ai/boosting-rag-picking-the-best-embedding-reranker-models-42d079022e83).
+
+By employing LLM prompt engineering, a diverse range of synthetic queries can be generated to form a dataset. Figure 1 outlines the process, transforming custom documents into a Dataset for evaluating IR or RAG systems. The repository showcases the Synthetic Query Generator process, emphasizing [zero-shot and few-shot prompting](https://openreview.net/pdf?id=gmL46YMpu2J#:~:text=Importantly%2C%20the%20few%2Dshot%20examples,highly%20efficient%20dual%20encoder%20models.) for creating highly customizable synthetic query datasets.
 
 <p align="center"> 
     <img src="./imgs/Query-Generator.png"
@@ -60,22 +62,31 @@ The primary function of an IR system is retrieval, which aims to determine the r
 
 This repository concentrates on creating a synthetic context-query dataset. This dataset is crucial for evaluating the Information Retrieval (IR) process illustrated in Figure 2, Step #2. By allowing offline evaluation, it enables a thorough analysis of an IR systems' balance between speed and accuracy, informing necessary revisions. Referencing Figure 3, a detailed exploration of LLM-based IR systems is shown. 
 <p align="center"> 
-    <img src="./imgs/overview-llms-ir.png" alt="this is some info."
+    <img src="./imgs/overview-llms-ir.png" alt="llms-ir"
     width="600" height="225">
     <br>
     Figure 3: LLMs can be used in query rewriter, retriever, reranker, and reader <a href="https://arxiv.org/pdf/2308.07107.pdf">[Source]</a>
 </p>
 
-As shown their are several steps in the IR task and solutions can range in complexity from traditional methods (e.g., term-based sparse methods) to neural based methods (e.g., embeddings and LLMs). Thus, the need for a context-query dataset to evaluate and refine retrieval systems is highly-valuable.
+As shown their are several steps in the IR task and solutions can range in complexity from traditional methods (e.g., term-based sparse methods) to neural based methods (e.g., embeddings and LLMs). Evaluation of IR systems is critical to making well-informed design decisions. From search to recommendations, evaluation measures are paramount to understanding what does and does not work in retrieval. Figure 5 shows common evaluation metrics for IR and the `Dataset` from Figure 1 can be used for the `Offline Metrics` shown in Figure 5.
+
+<p align="center"> 
+    <img src="./imgs/eval-metrics.png" alt="eval-metrics"
+    width="325" height="325">
+    <br>
+    Figure 4: Ranking evaluation metrics <a href="https://www.pinecone.io/learn/offline-evaluation/">[Source]</a>
+</p>
+
+`Offline metrics` are measured in an isolated environment before deploying a new IR system. These look at whether a particular set of relevant results are returned when retrieving items with the system [Source](https://www.pinecone.io/learn/offline-evaluation/").
 
 # Benefits
 A few key benefits of synthetic context-query data generation:
-- `Customized IR Task Query Generation`: Prompting LLMs offer great flexibility in the types of queries that can be generated. This is helpful because IR tasks vary in their application. For example, [Benchmarking-IR (BEIR)](https://github.com/beir-cellar/beir) is a heterogeneous benchmark containing diverse IR tasks such as question-answering, argument or counter argument retrieval, fact checking, etc. Due to the diversity in IR tasks this is where the benefits of LLM prompting can excellence because the prompt can be tailored to generate synthetic data to the IR task. Figure 4 shows an overview of the diverse IR tasks and datasets in BEIR. Refer to the [BEIR leaderboard](https://eval.ai/web/challenges/challenge-page/1897/overview) to see the performance of NLP-based retrieval models.
+- `Customized IR Task Query Generation`: Prompting LLMs offer great flexibility in the types of queries that can be generated. This is helpful because IR tasks vary in their application. For example, [Benchmarking-IR (BEIR)](https://github.com/beir-cellar/beir) is a heterogeneous benchmark containing diverse IR tasks such as question-answering, argument or counter argument retrieval, fact checking, etc. Due to the diversity in IR tasks this is where the benefits of LLM prompting can excellence because the prompt can be tailored to generate synthetic data to the IR task. Figure 5 shows an overview of the diverse IR tasks and datasets in BEIR. Refer to the [BEIR leaderboard](https://eval.ai/web/challenges/challenge-page/1897/overview) to see the performance of NLP-based retrieval models.
 <p align="center"> 
     <img src="./imgs/beir-datasets.png" alt="this is some info."
     width="600" height="225">
     <br>
-    Figure 4: BEIR benchmark datasets and IR tasks Image taken from <a href="https://openreview.net/pdf?id=wCu6T5xFjeJ">[Source]</a>
+    Figure 5: BEIR benchmark datasets and IR tasks Image taken from <a href="https://openreview.net/pdf?id=wCu6T5xFjeJ">[Source]</a>
 </p>
 
 - `Zero or Few-Shot Annotations`: In a technique referred to as [zero or few-shot prompting](https://blog.vespa.ai/improving-text-ranking-with-few-shot-prompting/), developers can provide domain-specific example queries to LLMs, greatly enhancing query generation. This approach often requires only a handful of annotated samples.
