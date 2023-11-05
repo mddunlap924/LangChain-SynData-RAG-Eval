@@ -5,7 +5,7 @@
   Prompting Large Language Models (LLM)
 </h1>
 
-<p align="center">This repository provides sample LLM prompts tailored for generating queries in Information Retrieval with custom document datasets.
+<p align="center">This repository provides sample LLM prompts tailored for generating synthetic queries used to evaluate an Information Retrieval system.
 </p> 
 
 <p align="center">
@@ -28,7 +28,7 @@
 </p>
 
 # Introduction
-Large language models (LLMs) have transformed Information Retrieval (IR) and search by comprehending complex queries. This repository showcases prompt templates designed for generating sophisticated queries. An example query-context pair:
+Large language models (LLMs) have transformed Information Retrieval (IR) and search by comprehending complex queries. This repository showcases prompt templates designed for generating sophisticated synthetic queries when provided context. An example context-query pair is shown below:
 ```
 CONTEXT: 
 Pure TalkUSA is an American mobile virtual network operator headquartered in Covington, Georgia, United States. 
@@ -39,41 +39,43 @@ QUERY:
 What was the outstanding service offered by Pure TalkUSA?
 ```
 
-# Background
-The primary function of an IR system is retrieval, which aims to determine the relevance between a users' query and the content to be retrieved. Implementing an IR or Retrieval Augmented Generation (RAG) system demands user-specific documents. However, lacking corresponding queries hampers system evaluation. Figure 1 provides an overview of the RAG process for a question-answering system.  
+When developing an IR or Retrieval Augmented Generation (RAG) system a dataset of context and queries is useful for evaluating the system's ranking effectiveness for a set of custom documents. Using LLM prompt engineering a variety of synthetic queries can be used to create a dataset. Figure 1 illustrates the process of going from a set of custom documents to building a `Dataset` that can be used to evaluate ranking for IR or RAG systems. The `Synthetic Query Generator` process is presented and described in this repository. Particularly, this repository demonstrates [zero-shot and few-shot prompting](https://openreview.net/pdf?id=gmL46YMpu2J#:~:text=Importantly%2C%20the%20few%2Dshot%20examples,highly%20efficient%20dual%20encoder%20models.) for highly customizable synthetic queries datasets. 
 
-<!-- <div style="text-align:center"> 
-    <img src="./imgs/open-book.png" alt="this is some info."
-    style="width:512px;height:512px;">
+<p align="center"> 
+    <img src="./imgs/Query-Generator.png"
+    style="width:650px;height:300px;">
     <br>
-    Figure 1: RAG process overview <a href="https://blog.gopenai.com/enrich-llms-with-retrieval-augmented-generation-rag-17b82a96b6f0">[Source]</a>.
-</div> -->
+    Figure 1: Process of Synthetic Query Generation to create a Dataset for evaluating IR ranking
+</p>
+
+# Background
+The primary function of an IR system is retrieval, which aims to determine the relevance between a users' query and the content to be retrieved. Implementing an IR or RAG system demands user-specific documents. However, lacking corresponding queries hampers system evaluation. Figure 2 provides an overview of the RAG process for a question-answering system.  
 
 <p align="center"> 
     <img src="./imgs/open-book.png" width="512" height="512"
     style="width:512px;height:512px;">
     <br>
-    Figure 1: RAG process overview <a href="https://blog.gopenai.com/enrich-llms-with-retrieval-augmented-generation-rag-17b82a96b6f0">[Source]</a>.
+    Figure 2: RAG process overview <a href="https://blog.gopenai.com/enrich-llms-with-retrieval-augmented-generation-rag-17b82a96b6f0">[Source]</a>.
 </p>
 
-This repository concentrates on creating a synthetic query-context dataset. This dataset is crucial for evaluating the Information Retrieval (IR) process illustrated in Figure 1, Step #2. By allowing offline evaluation, it enables a thorough analysis of an IR systems' balance between speed and accuracy, informing necessary revisions. Referencing Figure 2, a detailed exploration of LLM-based IR systems is shown. 
+This repository concentrates on creating a synthetic context-query dataset. This dataset is crucial for evaluating the Information Retrieval (IR) process illustrated in Figure 2, Step #2. By allowing offline evaluation, it enables a thorough analysis of an IR systems' balance between speed and accuracy, informing necessary revisions. Referencing Figure 3, a detailed exploration of LLM-based IR systems is shown. 
 <p align="center"> 
     <img src="./imgs/overview-llms-ir.png" alt="this is some info."
     width="600" height="225">
     <br>
-    Figure 2: LLMs can be used in query rewriter, retriever, reranker, and reader <a href="https://arxiv.org/pdf/2308.07107.pdf">[Source]</a>
+    Figure 3: LLMs can be used in query rewriter, retriever, reranker, and reader <a href="https://arxiv.org/pdf/2308.07107.pdf">[Source]</a>
 </p>
 
-As shown their are several steps in the IR task and solutions can range in complexity from traditional methods (e.g., term-based sparse methods) to neural based methods (e.g., embeddings and LLMs).
+As shown their are several steps in the IR task and solutions can range in complexity from traditional methods (e.g., term-based sparse methods) to neural based methods (e.g., embeddings and LLMs). Thus, the need for a context-query dataset to evaluate and refine retrieval systems is highly-valuable.
 
 # Benefits
-A few key benefits of synthetic query-context data generation:
-- `Customized IR Task Query Generation`: Prompting LLMs offer great flexibility in the types of queries that can be generated. This is helpful because IR tasks vary in their application. For example, [Benchmarking-IR (BEIR)](https://github.com/beir-cellar/beir) is a heterogeneous benchmark containing diverse IR tasks such as question-answering, argument or counter argument retrieval, fact checking, etc. Due to the diversity in IR tasks this is where the benefits of LLM prompting can excellence because the prompt can be tailored to generate synthetic data to the IR task. Figure 3 shows an overview of the diverse IR tasks and datasets in BEIR. Refer to the [BEIR leaderboard](https://eval.ai/web/challenges/challenge-page/1897/overview) to see the performance of NLP-based retrieval models.
+A few key benefits of synthetic context-query data generation:
+- `Customized IR Task Query Generation`: Prompting LLMs offer great flexibility in the types of queries that can be generated. This is helpful because IR tasks vary in their application. For example, [Benchmarking-IR (BEIR)](https://github.com/beir-cellar/beir) is a heterogeneous benchmark containing diverse IR tasks such as question-answering, argument or counter argument retrieval, fact checking, etc. Due to the diversity in IR tasks this is where the benefits of LLM prompting can excellence because the prompt can be tailored to generate synthetic data to the IR task. Figure 4 shows an overview of the diverse IR tasks and datasets in BEIR. Refer to the [BEIR leaderboard](https://eval.ai/web/challenges/challenge-page/1897/overview) to see the performance of NLP-based retrieval models.
 <p align="center"> 
     <img src="./imgs/beir-datasets.png" alt="this is some info."
     width="600" height="225">
     <br>
-    Figure 3: BEIR benchmark datasets and IR tasks Image taken from <a href="https://openreview.net/pdf?id=wCu6T5xFjeJ">[Source]</a>
+    Figure 4: BEIR benchmark datasets and IR tasks Image taken from <a href="https://openreview.net/pdf?id=wCu6T5xFjeJ">[Source]</a>
 </p>
 
 - `Zero or Few-Shot Annotations`: In a technique referred to as [zero or few-shot prompting](https://blog.vespa.ai/improving-text-ranking-with-few-shot-prompting/), developers can provide domain-specific example queries to LLMs, greatly enhancing query generation. This approach often requires only a handful of annotated samples.
@@ -101,10 +103,10 @@ Additional resources and references to help with prompting techniques and basics
 
 # Example Notebooks
 ### 1.) Question-Answering
-Review this [Jupyter Notebook qa-gen-query](./notebooks/qa-gen-query.ipynb) for a working example of synthetic query-context data generation for custom datasets. This shows examples of prompting LLMs using `zero and few-shot annotations`.
+Review this [Jupyter Notebook qa-gen-query](./notebooks/qa-gen-query.ipynb) for a working example of synthetic context-query data generation for custom datasets. This shows examples of prompting LLMs using `zero and few-shot annotations`.
 
 ### 2.) Argument Retrieval
-Review this [Jupyter Notebook argument-gen-query](./notebooks/argument-gen-query.ipynb) for examples of synthetic query-context data for argument retrieval tasks. In the context of information retrieval, these tasks are designed to retrieve relevant arguments from various sources such as documents. In argument retrieval the goal is to provide users with persuasive and credible information to support their arguments or make informed decisions.
+Review this [Jupyter Notebook argument-gen-query](./notebooks/argument-gen-query.ipynb) for examples of synthetic context-query data for argument retrieval tasks. In the context of information retrieval, these tasks are designed to retrieve relevant arguments from various sources such as documents. In argument retrieval the goal is to provide users with persuasive and credible information to support their arguments or make informed decisions.
 
 ### 3.) Non-Llama Query Generation
 Other examples of query specific generation models (e.g., `BeIR/query-gen-msmarco-t5-base-v1`) can readily be found online and at the below link(s):
