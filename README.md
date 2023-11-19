@@ -2,18 +2,18 @@
   <!-- <a href="https://github.com/mddunlap924/VHSpy">
     <img src="https://raw.githubusercontent.com/mddunlap924/PyVHS/main/doc/imgs/pyvhs.png" width="512" height="256" alt="pyvhs">
   </a> -->
-  Prompting Large Language Models (LLM)
+  Prompting Large Language Models (LLM) using LangChain for IR and RAG
 </h1>
 
-<p align="center">This repository provides sample LLM prompts tailored for generating synthetic queries used to evaluate an Information Retrieval system.
+<p align="center">This repository demonstrates LangChain, Llama2-Chat, and zero- and few-shot prompt engineering to enable synthetic context-query generation for advanced Information Retrieval system evaluation.
 </p> 
 
 <p align="center">
 <a href="#introduction">Introduction</a> &nbsp;&bull;&nbsp;
+<a href="#example-notebooks">Example Notebooks</a> &nbsp;&bull;&nbsp;
 <a href="#background">Background</a> &nbsp;&bull;&nbsp;
 <a href="#benefits">Benefits</a> &nbsp;&bull;&nbsp;
 <a href="#prompt-templates">Prompt Templates</a> &nbsp;&bull;&nbsp;
-<a href="#example-notebooks">Example Notebooks</a> &nbsp;&bull;&nbsp;
 <a href="#issues">Issues</a> &nbsp;&bull;&nbsp;
 <a href="#todos">TODOs</a>
 </p>
@@ -49,6 +49,43 @@ By employing LLM prompt engineering, a diverse range of synthetic queries can be
     <br>
     Figure 1: Process of Synthetic Query Generation to create a Dataset for evaluating IR ranking
 </p>
+
+
+# Example Notebooks
+## Synthetic Context-Query Generation without LangChain
+1.) **Zero- and Few-Shot Prompt Engineering**: Review this [Jupyter Notebook qa-gen-query](./notebooks/qa-gen-query.ipynb) for a working example of synthetic context-query data generation for custom datasets. This shows examples of prompting LLMs using `zero- and few-shot annotations` using the SquadV2 question-answering dataset. Furthermore, this notebook demonstrates [Two prompting techniques](https://blog.reachsumit.com/posts/2023/03/llm-for-text-ranking/):
+- Basic zero-shot query generation which is referred to as vanilla
+- Few-shot with Guided by Bad Questions (GBQ)
+
+2.) **Context-Arugment**: Review this [Jupyter Notebook argument-gen-query](./notebooks/argument-gen-query.ipynb) for examples of synthetic context-query data for argument retrieval tasks. In the context of information retrieval, these tasks are designed to retrieve relevant arguments from various sources such as documents. In argument retrieval the goal is to provide users with persuasive and credible information to support their arguments or make informed decisions.
+
+## Synthetic Context-Query Generation with LangChain
+1.) Review this [Jupyter Notebook qa-gen-query-langchain.ipynb](./notebooks/qa-gen-query-langchain.ipynb) for an example of how to build LangChain Custom Prompt Templates for context-query generation. A few of the LangChain features shown in this notebook are:
+The following LangChain features explored are:
+  - [LangChain Custom Prompt Template](https://python.langchain.com/docs/modules/model_io/prompts/prompt_templates/custom_prompt_template) for a Llama2-Chat model
+  - [Hugging Face Local Pipelines](https://python.langchain.com/docs/integrations/llms/huggingface_pipelines)
+  - [4-Bit Quantization](https://huggingface.co/blog/4bit-transformers-bitsandbytes)
+  - [Batch GPU Inference](https://python.langchain.com/docs/integrations/llms/huggingface_pipelines#batch-gpu-inference)
+
+### Non-Llama Query Generation
+Other examples of query specific generation models (e.g., `BeIR/query-gen-msmarco-t5-base-v1`) can readily be found online and at the below link(s):
+- [BEIR Question Generation](https://github.com/beir-cellar/beir/wiki/Examples-and-tutorials#beers-question-generation)
+
+Inferencing Llama-2 for query generation is shown in the below code snippet:
+```python
+# Tokenize the prompt
+batch = tokenizer(prompt, return_tensors='pt')
+
+# Generate the response from Llama2
+response = model.generate(batch["input_ids"].cuda(),
+                          do_sample=True,
+                          top_k=50,
+                          top_p=0.9,
+                          temperature=0.6)
+# Decode the response
+decode_response = tokenizer.decode(response[0], skip_special_tokens=True)
+```
+
 
 # Background
 The primary function of an IR system is retrieval, which aims to determine the relevance between a users' query and the content to be retrieved. Implementing an IR or RAG system demands user-specific documents. However, lacking corresponding queries hampers system evaluation. Figure 2 provides an overview of the RAG process for a question-answering system.  
@@ -112,31 +149,6 @@ Additional resources and references to help with prompting techniques and basics
 - [Llama2 Prompt Template](https://gpus.llm-utils.org/llama-2-prompt-template/#fn:1)
 - In this repository refer to the directory [notes-references](./notes-references/README.md) for more details on `Prompt Engineering` and `Consistency Filtering`.
 
-# Example Notebooks
-### 1.) Question-Answering
-Review this [Jupyter Notebook qa-gen-query](./notebooks/qa-gen-query.ipynb) for a working example of synthetic context-query data generation for custom datasets. This shows examples of prompting LLMs using `zero and few-shot annotations`.
-
-### 2.) Argument Retrieval
-Review this [Jupyter Notebook argument-gen-query](./notebooks/argument-gen-query.ipynb) for examples of synthetic context-query data for argument retrieval tasks. In the context of information retrieval, these tasks are designed to retrieve relevant arguments from various sources such as documents. In argument retrieval the goal is to provide users with persuasive and credible information to support their arguments or make informed decisions.
-
-### 3.) Non-Llama Query Generation
-Other examples of query specific generation models (e.g., `BeIR/query-gen-msmarco-t5-base-v1`) can readily be found online and at the below link(s):
-- [BEIR Question Generation](https://github.com/beir-cellar/beir/wiki/Examples-and-tutorials#beers-question-generation)
-
-Inferencing Llama-2 for query generation is shown in the below code snippet:
-```python
-# Tokenize the prompt
-batch = tokenizer(prompt, return_tensors='pt')
-
-# Generate the response from Llama2
-response = model.generate(batch["input_ids"].cuda(),
-                          do_sample=True,
-                          top_k=50,
-                          top_p=0.9,
-                          temperature=0.6)
-# Decode the response
-decode_response = tokenizer.decode(response[0], skip_special_tokens=True)
-```
 
 # Issues
 This repository is will do its best to be maintained. If you face any issue or want to make improvements please <a href="https://github.com/mddunlap924/llm-prompting/issues">raise an issue</a> or submit a Pull Request. :smiley:
