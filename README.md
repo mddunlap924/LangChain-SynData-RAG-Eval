@@ -61,7 +61,6 @@ By employing LLM prompt engineering, a diverse range of synthetic queries can be
 
 ## Synthetic Context-Query Generation with LangChain
 1.) Review this [Jupyter Notebook qa-gen-query-langchain.ipynb](./notebooks/qa-gen-query-langchain.ipynb) for an example of how to build LangChain Custom Prompt Templates for context-query generation. A few of the LangChain features shown in this notebook are:
-The following LangChain features explored are:
   - [LangChain Custom Prompt Template](https://python.langchain.com/docs/modules/model_io/prompts/prompt_templates/custom_prompt_template) for a Llama2-Chat model
   - [Hugging Face Local Pipelines](https://python.langchain.com/docs/integrations/llms/huggingface_pipelines)
   - [4-Bit Quantization](https://huggingface.co/blog/4bit-transformers-bitsandbytes)
