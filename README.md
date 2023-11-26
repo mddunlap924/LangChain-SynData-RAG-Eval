@@ -52,7 +52,7 @@ By employing LLM prompt engineering, a diverse range of synthetic queries and an
 
 <p align="center"> 
     <img src="./imgs/syn-qa.png"
-    style="width:600px;height:225px;">
+    style="width:1000px;height:400px;">
     <br>
     Figure 1: Synthetic Data Generation for IR and RAG Evaluation
 </p>
