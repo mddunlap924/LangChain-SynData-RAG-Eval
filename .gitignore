@@ -6,6 +6,7 @@ __pycache__/
 data/
 old_files/
 fake_root/
+my_offload_folder/
 *.pt
 *.pickle
 *.zip
