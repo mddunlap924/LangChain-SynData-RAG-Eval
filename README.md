@@ -51,8 +51,8 @@ When building an IR or RAG system, a dataset of context, queries, and answers is
 By employing LLM prompt engineering, a diverse range of synthetic queries and answers can be generated to form a robust validation dataset. This repository showcases a process to generate synthetic data while emphasizing [zero- and few-shot prompting](https://openreview.net/pdf?id=gmL46YMpu2J#:~:text=Importantly%2C%20the%20few%2Dshot%20examples,highly%20efficient%20dual%20encoder%20models.) for creating highly customizable synthetic datasets. Figure 1 outlines the synthetic dataset generation process demonstrated in this repository. 
 
 <p align="center"> 
-    <img src="./imgs/syn-qa.png"
-    style="width:930px;height:300px;">
+    <img src="./imgs/syn-gen-process.png"
+    style="width:1324px;height:464px;">
     <br>
     Figure 1: Synthetic Data Generation for IR and RAG Evaluation
 </p>
